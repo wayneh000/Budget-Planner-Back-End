@@ -15,7 +15,7 @@ public class AuthenticationService {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	@Autowired
-	private AuthenticationRepository autheitcationRepository;
+	private AuthenticationRepository authenticationRepository;
 	
 	public AccountDAO createAccount(String username, String password) {
 		return null;
