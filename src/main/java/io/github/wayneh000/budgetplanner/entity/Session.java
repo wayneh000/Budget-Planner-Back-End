@@ -21,19 +21,15 @@ public class Session {
 	@JoinColumn(name = "account_id")
 	private Account account;
 	
-	@Column(name = "ip_address")
-	private String ipAddress;
-	
 	@Column(name = "expiration_date")
 	private LocalDateTime expirationDate;
 
 	public Session() {
 	}
 
-	public Session(String sessionId, Account account, String ipAddress, LocalDateTime expirationDate) {
+	public Session(String sessionId, Account account, LocalDateTime expirationDate) {
 		this.sessionId = sessionId;
 		this.account = account;
-		this.ipAddress = ipAddress;
 		this.expirationDate = expirationDate;
 	}
 
@@ -53,14 +49,6 @@ public class Session {
 		this.account = account;
 	}
 
-	public String getIpAddress() {
-		return ipAddress;
-	}
-
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
-
 	public LocalDateTime getExpirationDate() {
 		return expirationDate;
 	}
@@ -71,7 +59,6 @@ public class Session {
 
 	@Override
 	public String toString() {
-		return "Session [sessionId=" + sessionId + ", account=" + account + ", ipAddress=" + ipAddress
-				+ ", expirationDate=" + expirationDate + "]";
+		return "Session [sessionId=" + sessionId + ", account=" + account + ", expirationDate=" + expirationDate + "]";
 	}
 }
