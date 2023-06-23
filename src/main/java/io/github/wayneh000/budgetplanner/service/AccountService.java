@@ -34,7 +34,7 @@ public class AccountService {
 	
 	public AccountDAO createAccount(AccountRequest request) throws BudgetPlannerException {
 		if (accountRepository.findByUsername(request.getUsername()).isPresent())
-			throw new BudgetPlannerException("AuthenticationService.USERNAME_ALREADY_EXISTS");
+			throw new BudgetPlannerException("AccountService.USERNAME_ALREADY_EXISTS");
 		
 		AccountDAO accountDAO = new AccountDAO();
 		accountDAO.setUsername(request.getUsername());
@@ -64,9 +64,9 @@ public class AccountService {
 	}
 	
 	private AccountDAO verifyLogin(String username, String password) throws BudgetPlannerException {
-		Account account = accountRepository.findByUsername(username).orElseThrow(() -> new BudgetPlannerException("AuthenticationService.INVALID_CREDENTIALS"));
+		Account account = accountRepository.findByUsername(username).orElseThrow(() -> new BudgetPlannerException("AccountService.INVALID_CREDENTIALS"));
 		if (!passwordEncoder.matches(password, account.getPassword()))
-			throw new BudgetPlannerException("AuthenticationService.INVALID_CREDENTIALS");
+			throw new BudgetPlannerException("AccountService.INVALID_CREDENTIALS");
 		
 		return AccountDAO.fromEntity(account);
 	}
