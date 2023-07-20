@@ -3,6 +3,7 @@ package io.github.wayneh000.budgetplanner.dao;
 import java.time.LocalDateTime;
 
 import io.github.wayneh000.budgetplanner.entity.Account;
+import io.github.wayneh000.budgetplanner.response.AccountResponse;
 
 public class AccountDAO {
 
@@ -84,5 +85,14 @@ public class AccountDAO {
 				account.getPassword(),
 				account.getDateCreated(),
 				account.getDateLastLogin());
+	}
+	
+	public static AccountResponse toResponse(AccountDAO accountDAO) {
+		AccountResponse response = new AccountResponse();
+		response.setAccountId(accountDAO.getAccountId());
+		response.setUsername(accountDAO.getUsername());
+		response.setDateCreated(accountDAO.getDateCreated());
+		response.setDateLastLogin(accountDAO.getDateLastLogin());
+		return response;
 	}
 }
