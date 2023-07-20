@@ -11,18 +11,6 @@ public class IncomeDAO {
 	private Double amount;
 	private Integer period;
 	
-	public IncomeDAO() {
-	}
-
-	public IncomeDAO(Long incomeId, BudgetDAO budgetDAO, String name, String category, Double amount, Integer period) {
-		this.incomeId = incomeId;
-		this.budgetDAO = budgetDAO;
-		this.name = name;
-		this.category = category;
-		this.amount = amount;
-		this.period = period;
-	}
-
 	public Long getIncomeId() {
 		return incomeId;
 	}
@@ -78,20 +66,24 @@ public class IncomeDAO {
 	}
 	
 	public static Income toEntity(IncomeDAO incomeDAO) {
-		return new Income(incomeDAO.getIncomeId(),
-				BudgetDAO.toEntity(incomeDAO.getBudgetDAO()),
-				incomeDAO.getName(),
-				incomeDAO.getCategory(),
-				incomeDAO.getAmount(),
-				incomeDAO.getPeriod());
+		Income income = new Income();
+		income.setIncomeId(incomeDAO.getIncomeId());
+		income.setBudget(BudgetDAO.toEntity(incomeDAO.getBudgetDAO()));
+		income.setName(incomeDAO.getName());
+		income.setCategory(incomeDAO.getCategory());
+		income.setAmount(incomeDAO.getAmount());
+		income.setPeriod(incomeDAO.getPeriod());
+		return income;
 	}
 	
 	public static IncomeDAO fromEntity(Income income) {
-		return new IncomeDAO(income.getIncomeId(),
-				BudgetDAO.fromEntity(income.getBudget()),
-				income.getName(),
-				income.getCategory(),
-				income.getAmount(),
-				income.getPeriod());
+		IncomeDAO incomeDAO = new IncomeDAO();
+		incomeDAO.setIncomeId(income.getIncomeId());
+		incomeDAO.setBudgetDAO(BudgetDAO.fromEntity(income.getBudget()));
+		incomeDAO.setName(income.getName());
+		incomeDAO.setCategory(income.getCategory());
+		incomeDAO.setAmount(income.getAmount());
+		incomeDAO.setPeriod(income.getPeriod());
+		return incomeDAO;
 	}
 }

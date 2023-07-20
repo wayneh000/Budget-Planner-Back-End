@@ -11,19 +11,6 @@ public class ExpenseDAO {
 	private Double amount;
 	private Integer period;
 	
-	public ExpenseDAO() {
-	}
-
-	public ExpenseDAO(Long expenseId, BudgetDAO budgetDAO, String name, String category, Double amount,
-			Integer period) {
-		this.expenseId = expenseId;
-		this.budgetDAO = budgetDAO;
-		this.name = name;
-		this.category = category;
-		this.amount = amount;
-		this.period = period;
-	}
-
 	public Long getExpenseId() {
 		return expenseId;
 	}
@@ -79,20 +66,24 @@ public class ExpenseDAO {
 	}
 	
 	public static Expense toEntity(ExpenseDAO expenseDAO) {
-		return new Expense(expenseDAO.getExpenseId(),
-				BudgetDAO.toEntity(expenseDAO.getBudgetDAO()),
-				expenseDAO.getName(),
-				expenseDAO.getCategory(),
-				expenseDAO.getAmount(),
-				expenseDAO.getPeriod());
+		Expense expense = new Expense();
+		expense.setExpenseId(expenseDAO.getExpenseId());
+		expense.setBudget(BudgetDAO.toEntity(expenseDAO.getBudgetDAO()));
+		expense.setName(expenseDAO.getName());
+		expense.setCategory(expenseDAO.getCategory());
+		expense.setAmount(expenseDAO.getAmount());
+		expense.setPeriod(expenseDAO.getPeriod());
+		return expense;
 	}
 	
 	public static ExpenseDAO fromEntity(Expense expense) {
-		return new ExpenseDAO(expense.getExpenseId(),
-				BudgetDAO.fromEntity(expense.getBudget()),
-				expense.getName(),
-				expense.getCategory(),
-				expense.getAmount(),
-				expense.getPeriod());
+		ExpenseDAO expenseDAO = new ExpenseDAO();
+		expenseDAO.setExpenseId(expense.getExpenseId());
+		expenseDAO.setBudgetDAO(BudgetDAO.fromEntity(expense.getBudget()));
+		expenseDAO.setName(expense.getName());
+		expenseDAO.setCategory(expense.getCategory());
+		expenseDAO.setAmount(expense.getAmount());
+		expenseDAO.setPeriod(expense.getPeriod());
+		return expenseDAO;
 	}
 }

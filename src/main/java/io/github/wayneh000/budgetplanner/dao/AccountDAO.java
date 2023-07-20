@@ -12,18 +12,6 @@ public class AccountDAO {
 	private String password;
 	private LocalDateTime dateCreated;
 	private LocalDateTime dateLastLogin;
-	
-	public AccountDAO() {
-	}
-
-	public AccountDAO(Integer accountId, String username, String password, LocalDateTime dateCreated,
-			LocalDateTime dateLastLogin) {
-		this.accountId = accountId;
-		this.username = username;
-		this.password = password;
-		this.dateCreated = dateCreated;
-		this.dateLastLogin = dateLastLogin;
-	}
 
 	public Integer getAccountId() {
 		return accountId;
@@ -72,19 +60,23 @@ public class AccountDAO {
 	}
 
 	public static Account toEntity(AccountDAO accountDAO) {
-		return new Account(accountDAO.getAccountId(),
-				accountDAO.getUsername(),
-				accountDAO.getPassword(),
-				accountDAO.getDateCreated(),
-				accountDAO.getDateLastLogin());
+		Account account = new Account();
+		account.setAccountId(accountDAO.getAccountId());
+		account.setUsername(accountDAO.getUsername());
+		account.setPassword(accountDAO.getPassword());
+		account.setDateCreated(accountDAO.getDateCreated());
+		account.setDateLastLogin(accountDAO.getDateLastLogin());
+		return account;
 	}
 	
 	public static AccountDAO fromEntity(Account account) {
-		return new AccountDAO(account.getAccountId(),
-				account.getUsername(),
-				account.getPassword(),
-				account.getDateCreated(),
-				account.getDateLastLogin());
+		AccountDAO accountDAO = new AccountDAO();
+		accountDAO.setAccountId(account.getAccountId());
+		accountDAO.setUsername(account.getUsername());
+		accountDAO.setPassword(account.getPassword());
+		accountDAO.setDateCreated(account.getDateCreated());
+		accountDAO.setDateLastLogin(account.getDateLastLogin());
+		return accountDAO;
 	}
 	
 	public static AccountResponse toResponse(AccountDAO accountDAO) {

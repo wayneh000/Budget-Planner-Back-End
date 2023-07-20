@@ -24,15 +24,6 @@ public class Session {
 	@Column(name = "expiration_date")
 	private LocalDateTime expirationDate;
 
-	public Session() {
-	}
-
-	public Session(String sessionId, Account account, LocalDateTime expirationDate) {
-		this.sessionId = sessionId;
-		this.account = account;
-		this.expirationDate = expirationDate;
-	}
-
 	public String getSessionId() {
 		return sessionId;
 	}

@@ -9,15 +9,6 @@ public class SessionDAO {
 	private String sessionId;
 	private AccountDAO accountDAO;
 	private LocalDateTime expirationDate;
-	
-	public SessionDAO() {
-	}
-
-	public SessionDAO(String sessionId, AccountDAO accountDAO, LocalDateTime expirationDate) {
-		this.sessionId = sessionId;
-		this.accountDAO = accountDAO;
-		this.expirationDate = expirationDate;
-	}
 
 	public String getSessionId() {
 		return sessionId;
@@ -49,14 +40,18 @@ public class SessionDAO {
 	}
 	
 	public static Session toEntity(SessionDAO sessionDAO) {
-		return new Session(sessionDAO.getSessionId(),
-				AccountDAO.toEntity(sessionDAO.getAccountDAO()),
-				sessionDAO.getExpirationDate());
+		Session session = new Session();
+		session.setSessionId(sessionDAO.getSessionId());
+		session.setAccount(AccountDAO.toEntity(sessionDAO.getAccountDAO()));
+		session.setExpirationDate(sessionDAO.getExpirationDate());
+		return session;
 	}
 	
 	public static SessionDAO fromEntity(Session session) {
-		return new SessionDAO(session.getSessionId(),
-				AccountDAO.fromEntity(session.getAccount()),
-				session.getExpirationDate());
+		SessionDAO sessionDAO = new SessionDAO();
+		sessionDAO.setSessionId(session.getSessionId());
+		sessionDAO.setAccountDAO(AccountDAO.fromEntity(session.getAccount()));
+		sessionDAO.setExpirationDate(session.getExpirationDate());
+		return sessionDAO;
 	}
 }

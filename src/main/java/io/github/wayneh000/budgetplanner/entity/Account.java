@@ -30,18 +30,6 @@ public class Account {
 	
 	@Column(name = "date_last_login")
 	private LocalDateTime dateLastLogin;
-	
-	public Account() {
-	}
-
-	public Account(Integer accountId, String username, String password, LocalDateTime dateCreated,
-			LocalDateTime dateLastLogin) {
-		this.accountId = accountId;
-		this.username = username;
-		this.password = password;
-		this.dateCreated = dateCreated;
-		this.dateLastLogin = dateLastLogin;
-	}
 
 	public Integer getAccountId() {
 		return accountId;
