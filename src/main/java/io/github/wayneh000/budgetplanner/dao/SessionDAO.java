@@ -3,6 +3,7 @@ package io.github.wayneh000.budgetplanner.dao;
 import java.time.LocalDateTime;
 
 import io.github.wayneh000.budgetplanner.entity.Session;
+import io.github.wayneh000.budgetplanner.response.SessionResponse;
 
 public class SessionDAO {
 
@@ -53,5 +54,13 @@ public class SessionDAO {
 		sessionDAO.setAccountDAO(AccountDAO.fromEntity(session.getAccount()));
 		sessionDAO.setExpirationDate(session.getExpirationDate());
 		return sessionDAO;
+	}
+	
+	public static SessionResponse toResponse(SessionDAO sessionDAO) {
+		SessionResponse response = new SessionResponse();
+		response.setSessionId(sessionDAO.getSessionId());
+		response.setAccountResponse(AccountDAO.toResponse(sessionDAO.getAccountDAO()));
+		response.setExpirationDate(sessionDAO.getExpirationDate());
+		return response;
 	}
 }
