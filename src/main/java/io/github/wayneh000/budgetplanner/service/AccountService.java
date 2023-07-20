@@ -1,6 +1,8 @@
 package io.github.wayneh000.budgetplanner.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +46,19 @@ public class AccountService {
 		accountDAO.setAccountId(account.getAccountId());
 		
 		return accountDAO;
+	}
+	
+	public AccountDAO getAccount(Integer accountId) throws BudgetPlannerException {
+		Account account = accountRepository.findById(accountId).orElseThrow(() -> new BudgetPlannerException("AccountService.ACCOUNT_NOT_FOUND"));
+		return AccountDAO.fromEntity(account);
+	}
+	
+	public List<AccountDAO> getAccounts() {
+		List<Account> accounts = accountRepository.findAll();
+		List<AccountDAO> accountDAOs = new ArrayList<>(accounts.size());
+		for (Account account : accounts)
+			accountDAOs.add(AccountDAO.fromEntity(account));
+		return accountDAOs;
 	}
 	
 	public AccountDAO login(AccountRequest request) throws BudgetPlannerException {
