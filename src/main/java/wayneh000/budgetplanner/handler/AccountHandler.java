@@ -15,7 +15,7 @@ public class AccountHandler {
 	
 	private static Logger LOGGER = LogManager.getLogger();
 
-	@Before("execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))")
+	@Before("execution(* wayneh000.budgetplanner.service.AccountService.createAccount(..))")
 	public void createAccountBeforeAdvice(JoinPoint joinPoint) {
 		LOGGER.info("Creating account with details: ");
 		AccountRequest request = (AccountRequest) joinPoint.getArgs()[0];
