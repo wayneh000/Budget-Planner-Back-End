@@ -13,7 +13,7 @@ import io.github.wayneh000.budgetplanner.request.AccountRequest;
 @Component
 public class AccountHandler {
 	
-	private static Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	@Before("execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))")
 	public void createAccountBeforeAdvice(JoinPoint joinPoint) {
