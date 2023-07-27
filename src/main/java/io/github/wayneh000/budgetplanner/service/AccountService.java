@@ -21,8 +21,6 @@ import io.github.wayneh000.budgetplanner.response.AccountResponse;
 
 @Service
 public class AccountService {
-	
-	private static final Logger LOGGER = LogManager.getLogger();
 
 	@Autowired
 	private AccountRepository accountRepository;
@@ -43,6 +41,7 @@ public class AccountService {
 		accountDAO.setUsername(request.getUsername());
 		accountDAO.setPassword(passwordEncoder.encode(request.getPassword()));
 		accountDAO.setDateCreated(LocalDateTime.now());
+		accountDAO.setDateLastLogin(LocalDateTime.now());
 		Account account = accountRepository.save(AccountDAO.toEntity(accountDAO));
 		accountDAO.setAccountId(account.getAccountId());
 		
