@@ -3,7 +3,6 @@ package io.github.wayneh000.budgetplanner.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +40,7 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping("/getAccount/<id>")
+	@GetMapping("/getAccount/{id}")
 	public ResponseEntity<AccountResponse> getAccount(@RequestParam Integer id) {
 		try {
 			return new ResponseEntity<>(accountService.getAccount(id), HttpStatus.OK);
