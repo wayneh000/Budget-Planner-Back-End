@@ -54,8 +54,8 @@ public class AccountDAO {
 
 	@Override
 	public String toString() {
-		return "AccountDAO [accountId=" + accountId + ", username=" + username + ", password=" + password
-				+ ", dateCreated=" + dateCreated + ", dateLastLogin=" + dateLastLogin + "]";
+		return "AccountDAO [accountId=" + accountId + ", username=" + username + ", dateCreated=" + dateCreated
+				+ ", dateLastLogin=" + dateLastLogin + "]";
 	}
 
 	public static Account toEntity(AccountDAO accountDAO) {
@@ -67,7 +67,7 @@ public class AccountDAO {
 		account.setDateLastLogin(accountDAO.getDateLastLogin());
 		return account;
 	}
-	
+
 	public static AccountDAO fromEntity(Account account) {
 		AccountDAO accountDAO = new AccountDAO();
 		accountDAO.setAccountId(account.getAccountId());
