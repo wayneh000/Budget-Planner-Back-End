@@ -55,12 +55,4 @@ public class SessionDAO {
 		sessionDAO.setExpirationDate(session.getExpirationDate());
 		return sessionDAO;
 	}
-	
-	public static SessionResponse toResponse(SessionDAO sessionDAO) {
-		SessionResponse response = new SessionResponse();
-		response.setSessionId(sessionDAO.getSessionId());
-		response.setAccountResponse(AccountDAO.toResponse(sessionDAO.getAccountDAO()));
-		response.setExpirationDate(sessionDAO.getExpirationDate());
-		return response;
-	}
 }
