@@ -55,18 +55,17 @@ public class SessionService {
 			throw new BudgetPlannerException(ErrorMessages.SESSION_EXPIRED);
 		}
 
-		return SessionDAO.fromEntity(session);
+		return updateSession(SessionDAO.fromEntity(session));
 	}
 
-	public SessionDAO updateSession(String sessionId) throws BudgetPlannerException {
-		SessionDAO sessionDAO = verifySession(sessionId);
+	SessionDAO updateSession(SessionDAO sessionDAO) throws BudgetPlannerException {
 		renewExpirationDate(sessionDAO);
 		sessionRepository.save(SessionDAO.toEntity(sessionDAO));
 
 		return sessionDAO;
 	}
 
-	public SessionDAO deleteSession(String sessionId) throws BudgetPlannerException {
+	SessionDAO deleteSession(String sessionId) throws BudgetPlannerException {
 		Session session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new BudgetPlannerException(ErrorMessages.SESSION_NOT_FOUND));
 		sessionRepository.deleteById(sessionId);
