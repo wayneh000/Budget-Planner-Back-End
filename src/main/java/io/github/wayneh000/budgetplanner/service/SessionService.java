@@ -12,6 +12,7 @@ import io.github.wayneh000.budgetplanner.dao.SessionDAO;
 import io.github.wayneh000.budgetplanner.entity.Session;
 import io.github.wayneh000.budgetplanner.exception.BudgetPlannerException;
 import io.github.wayneh000.budgetplanner.repository.SessionRepository;
+import io.github.wayneh000.budgetplanner.request.AccountRequest;
 
 @Service
 public class SessionService {
@@ -27,8 +28,8 @@ public class SessionService {
 		rng = new Random();
 	}
 	
-	public SessionDAO createSession(AccountDAO accountDAO) throws BudgetPlannerException {
-		accountService.verifyLogin(accountDAO.getUsername(), accountDAO.getPassword());
+	public SessionDAO createSession(AccountRequest request) throws BudgetPlannerException {
+		AccountDAO accountDAO = accountService.verifyLogin(request.getUsername(), request.getPassword());
 		
 		SessionDAO sessionDAO = new SessionDAO();
 		sessionDAO.setAccountDAO(accountDAO);
