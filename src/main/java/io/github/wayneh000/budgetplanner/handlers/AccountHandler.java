@@ -17,19 +17,37 @@ public class AccountHandler {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	@Before("execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))")
+	@Before("execution(public * io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))")
 	public void createAccountBeforeAdvice(JoinPoint joinPoint) {
-		AccountRequest request = (AccountRequest) joinPoint.getArgs()[0];
-		LOGGER.info("Creating account with details: {}", request);
+		Object request = joinPoint.getArgs()[0];
+		LOGGER.info("Creating new account with details: {}", request);
+	}
+	
+	@Before("execution(public * io.github.wayneh000.budgetplanner.service.AccountService.getAccount(..))")
+	public void getAccountBeforeAdvice(JoinPoint joinPoint) {
+		Object request = joinPoint.getArgs()[0];
+		LOGGER.info("Getting account with id {}", request);
+	}
+	
+	@Before("execution(public * io.github.wayneh000.budgetplanner.service.AccountService.getAccounts(..))")
+	public void getAccountsBeforeAdvice() {
+		LOGGER.info("Getting all accounts from database");
+	}
+	
+	@Before("execution(public * io.github.wayneh000.budgetplanner.service.AccountService.updatePassword(..))")
+	public void updatePasswordBeforeAdvice(JoinPoint joinPoint) {
+		Object request = joinPoint.getArgs()[0];
+		LOGGER.info("Updating password with details {}", request);
 	}
 
-	@AfterReturning(pointcut = "execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))", returning = "account")
-	public void createAccountAfterReturning(Object account) {
-		LOGGER.info("Account has been created with details: {}", account);
+	@AfterReturning(pointcut = "execution(public * io.github.wayneh000.budgetplanner.service.AccountService.*(..))", returning = "account")
+	public void afterReturningAdvice(Object account) {
+		LOGGER.info("Execution successful with details: {}", account);
 	}
 
-	@AfterThrowing(pointcut = "execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))", throwing = "e")
-	public void createAccountAfterThrowing(Exception e) {
-		LOGGER.error("Account creation failed for the following reason: {}", e.getMessage());
+	@AfterThrowing(pointcut = "execution(public * io.github.wayneh000.budgetplanner.service.AccountService.*(..))", throwing = "e")
+	public void afterThrowingAdvice(Exception e) {
+		LOGGER.error("Execution failed with the following reason: {}", e.getMessage());
+		LOGGER.error(e);
 	}
 }
