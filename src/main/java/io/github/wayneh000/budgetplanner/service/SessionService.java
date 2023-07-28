@@ -11,27 +11,28 @@ import io.github.wayneh000.budgetplanner.dao.AccountDAO;
 import io.github.wayneh000.budgetplanner.dao.SessionDAO;
 import io.github.wayneh000.budgetplanner.entity.Session;
 import io.github.wayneh000.budgetplanner.exception.BudgetPlannerException;
+import io.github.wayneh000.budgetplanner.exception.ErrorMessages;
 import io.github.wayneh000.budgetplanner.repository.SessionRepository;
 import io.github.wayneh000.budgetplanner.request.AccountRequest;
 
 @Service
 public class SessionService {
-	
+
 	@Autowired
 	private SessionRepository sessionRepository;
-	
+
 	@Autowired
 	private AccountService accountService;
-	
+
 	private Random rng;
-	
+
 	public SessionService() {
 		rng = new Random();
 	}
-	
+
 	public SessionDAO createSession(AccountRequest request) throws BudgetPlannerException {
 		AccountDAO accountDAO = accountService.verifyLogin(request.getUsername(), request.getPassword());
-		
+
 		SessionDAO sessionDAO = new SessionDAO();
 		sessionDAO.setAccountDAO(accountDAO);
 		renewExpirationDate(sessionDAO);
@@ -42,39 +43,41 @@ public class SessionService {
 		} while (session != null);
 		sessionRepository.save(SessionDAO.toEntity(sessionDAO));
 		accountService.updateLoginDate(accountDAO);
-		
+
 		return sessionDAO;
 	}
-	
+
 	public SessionDAO verifySession(String sessionId) throws BudgetPlannerException {
-		Session session = sessionRepository.findById(sessionId).orElseThrow(() -> new BudgetPlannerException("SessionService.SESSION_NOT_FOUND"));
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new BudgetPlannerException(ErrorMessages.SESSION_NOT_FOUND));
 		if (session.getExpirationDate().isAfter(LocalDateTime.now())) {
 			deleteSession(sessionId);
-			throw new BudgetPlannerException("SessionService.SESSION_EXPIRED");
+			throw new BudgetPlannerException(ErrorMessages.SESSION_EXPIRED);
 		}
-		
+
 		return SessionDAO.fromEntity(session);
 	}
-	
+
 	public SessionDAO updateSession(String sessionId) throws BudgetPlannerException {
 		SessionDAO sessionDAO = verifySession(sessionId);
 		renewExpirationDate(sessionDAO);
 		sessionRepository.save(SessionDAO.toEntity(sessionDAO));
-		
+
 		return sessionDAO;
 	}
-	
+
 	public SessionDAO deleteSession(String sessionId) throws BudgetPlannerException {
-		Session session = sessionRepository.findById(sessionId).orElseThrow(() -> new BudgetPlannerException("SessionService.SESSION_NOT_FOUND"));
+		Session session = sessionRepository.findById(sessionId)
+				.orElseThrow(() -> new BudgetPlannerException(ErrorMessages.SESSION_NOT_FOUND));
 		sessionRepository.deleteById(sessionId);
-		
+
 		return SessionDAO.fromEntity(session);
 	}
-	
+
 	private void renewExpirationDate(SessionDAO sessionDAO) {
 		sessionDAO.setExpirationDate(LocalDateTime.now().plusMinutes(30));
 	}
-	
+
 	private String generateId() {
 		byte[] bytes = new byte[48];
 		rng.nextBytes(bytes);

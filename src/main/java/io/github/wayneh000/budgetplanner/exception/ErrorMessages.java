@@ -11,4 +11,8 @@ public class ErrorMessages {
 	public static final String ACCOUNT_ALREADY_EXISTS = "An account with that username already exists.";
 	public static final String ACCOUNT_NOT_FOUND = "An account with that username does not exist.";
 	public static final String ACCOUNT_INVALID_CREDENTIALS = "Invalid username or password.";
+	
+	//SessionService Errors
+	public static final String SESSION_EXPIRED = "Current session has expired.";
+	public static final String SESSION_NOT_FOUND = "Current session cannot be found.";
 }
