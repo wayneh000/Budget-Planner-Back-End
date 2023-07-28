@@ -24,7 +24,7 @@ import io.github.wayneh000.budgetplanner.response.AccountResponse;
 import io.github.wayneh000.budgetplanner.service.AccountService;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auth/account")
 public class AccountController {
 
 	@Autowired
