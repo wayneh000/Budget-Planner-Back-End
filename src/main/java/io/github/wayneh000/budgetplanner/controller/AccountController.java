@@ -1,6 +1,7 @@
 package io.github.wayneh000.budgetplanner.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class AccountController {
 	@GetMapping("/getAccount")
 	public ResponseEntity<List<AccountResponse>> getAccounts() {
 		List<AccountDAO> accountDAOs = accountService.getAccounts();
-		List<AccountResponse> accountResponses = accountDAOs.stream().map(AccountController::createResponse).toList();
+		List<AccountResponse> accountResponses = accountDAOs.stream().map(AccountController::createResponse).collect(Collectors.toList());
 		return new ResponseEntity<>(accountResponses, HttpStatus.OK);
 	}
 

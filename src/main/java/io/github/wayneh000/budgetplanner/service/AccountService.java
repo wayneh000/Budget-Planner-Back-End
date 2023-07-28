@@ -1,8 +1,8 @@
 package io.github.wayneh000.budgetplanner.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,10 +52,7 @@ public class AccountService {
 
 	public List<AccountDAO> getAccounts() {
 		List<Account> accounts = accountRepository.findAll();
-		List<AccountDAO> response = new ArrayList<>(accounts.size());
-		for (Account account : accounts)
-			response.add((AccountDAO.fromEntity(account)));
-		return response;
+		return accounts.stream().map(AccountDAO::fromEntity).collect(Collectors.toList());
 	}
 
 	public AccountDAO updatePassword(UpdatePasswordRequest request) throws BudgetPlannerException {
