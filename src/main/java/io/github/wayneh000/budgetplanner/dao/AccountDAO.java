@@ -78,13 +78,4 @@ public class AccountDAO {
 		accountDAO.setDateLastLogin(account.getDateLastLogin());
 		return accountDAO;
 	}
-	
-	public static AccountResponse toResponse(AccountDAO accountDAO) {
-		AccountResponse response = new AccountResponse();
-		response.setAccountId(accountDAO.getAccountId());
-		response.setUsername(accountDAO.getUsername());
-		response.setDateCreated(accountDAO.getDateCreated());
-		response.setDateLastLogin(accountDAO.getDateLastLogin());
-		return response;
-	}
 }

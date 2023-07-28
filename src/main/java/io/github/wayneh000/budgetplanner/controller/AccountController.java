@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.github.wayneh000.budgetplanner.dao.AccountDAO;
 import io.github.wayneh000.budgetplanner.exception.BudgetPlannerException;
 import io.github.wayneh000.budgetplanner.exception.ErrorMessages;
 import io.github.wayneh000.budgetplanner.request.AccountRequest;
@@ -31,7 +32,7 @@ public class AccountController {
 	@PostMapping("/createAccount")
 	public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request) {
 		try {
-			return new ResponseEntity<>(accountService.createAccount(request), HttpStatus.CREATED);
+			return new ResponseEntity<>(createResponse(accountService.createAccount(request)), HttpStatus.CREATED);
 		} catch (BudgetPlannerException e) {
 			throw new ResponseStatusException(
 					e.getMessage().equals(ErrorMessages.ACCOUNT_ALREADY_EXISTS) ? HttpStatus.CONFLICT
@@ -43,7 +44,7 @@ public class AccountController {
 	@GetMapping("/getAccount/{id}")
 	public ResponseEntity<AccountResponse> getAccount(@PathVariable Integer id) {
 		try {
-			return new ResponseEntity<>(accountService.getAccount(id), HttpStatus.OK);
+			return new ResponseEntity<>(createResponse(accountService.getAccount(id)), HttpStatus.OK);
 		} catch (BudgetPlannerException e) {
 			throw new ResponseStatusException(
 					e.getMessage().equals(ErrorMessages.ACCOUNT_NOT_FOUND) ? HttpStatus.NOT_FOUND
@@ -54,18 +55,29 @@ public class AccountController {
 
 	@GetMapping("/getAccount")
 	public ResponseEntity<List<AccountResponse>> getAccounts() {
-		return new ResponseEntity<>(accountService.getAccounts(), HttpStatus.OK);
+		List<AccountDAO> accountDAOs = accountService.getAccounts();
+		List<AccountResponse> accountResponses = accountDAOs.stream().map((AccountDAO accountDAO) -> createResponse(accountDAO)).toList();
+		return new ResponseEntity<>(accountResponses, HttpStatus.OK);
 	}
 
 	@PutMapping("/updatePassword")
 	public ResponseEntity<AccountResponse> updatePassword(@RequestBody UpdatePasswordRequest request) {
 		try {
-			return new ResponseEntity<>(accountService.updatePassword(request), HttpStatus.OK);
+			return new ResponseEntity<>(createResponse(accountService.updatePassword(request)), HttpStatus.OK);
 		} catch (BudgetPlannerException e) {
 			throw new ResponseStatusException(
 					e.getMessage().equals(ErrorMessages.ACCOUNT_INVALID_CREDENTIALS) ? HttpStatus.UNAUTHORIZED
 							: HttpStatus.INTERNAL_SERVER_ERROR,
 					e.getMessage());
 		}
+	}
+	
+	static AccountResponse createResponse(AccountDAO accountDAO) {
+		AccountResponse response = new AccountResponse();
+		response.setAccountId(accountDAO.getAccountId());
+		response.setUsername(accountDAO.getUsername());
+		response.setDateCreated(accountDAO.getDateCreated());
+		response.setDateLastLogin(accountDAO.getDateLastLogin());
+		return response;
 	}
 }
