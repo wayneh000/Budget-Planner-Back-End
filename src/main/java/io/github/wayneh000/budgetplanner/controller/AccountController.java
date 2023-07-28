@@ -24,13 +24,13 @@ import io.github.wayneh000.budgetplanner.response.AccountResponse;
 import io.github.wayneh000.budgetplanner.service.AccountService;
 
 @RestController
-@RequestMapping("/api/v1/auth/account")
+@RequestMapping("api/v1/auth/account")
 public class AccountController {
 
 	@Autowired
 	private AccountService accountService;
 
-	@PostMapping("/createAccount")
+	@PostMapping("createAccount")
 	public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request) {
 		try {
 			return new ResponseEntity<>(createResponse(accountService.createAccount(request)), HttpStatus.CREATED);
@@ -42,7 +42,7 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping("/getAccount/{id}")
+	@GetMapping("getAccount/{id}")
 	public ResponseEntity<AccountResponse> getAccount(@PathVariable Integer id) {
 		try {
 			return new ResponseEntity<>(createResponse(accountService.getAccount(id)), HttpStatus.OK);
@@ -54,14 +54,14 @@ public class AccountController {
 		}
 	}
 
-	@GetMapping("/getAccount")
+	@GetMapping("getAccount")
 	public ResponseEntity<List<AccountResponse>> getAccounts() {
 		List<AccountDAO> accountDAOs = accountService.getAccounts();
 		List<AccountResponse> accountResponses = accountDAOs.stream().map(AccountController::createResponse).collect(Collectors.toList());
 		return new ResponseEntity<>(accountResponses, HttpStatus.OK);
 	}
 
-	@PutMapping("/updatePassword")
+	@PutMapping("updatePassword")
 	public ResponseEntity<AccountResponse> updatePassword(@RequestBody UpdatePasswordRequest request) {
 		try {
 			return new ResponseEntity<>(createResponse(accountService.updatePassword(request)), HttpStatus.OK);
