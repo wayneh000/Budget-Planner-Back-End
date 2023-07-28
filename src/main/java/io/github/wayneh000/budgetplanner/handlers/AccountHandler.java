@@ -19,20 +19,17 @@ public class AccountHandler {
 
 	@Before("execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))")
 	public void createAccountBeforeAdvice(JoinPoint joinPoint) {
-		LOGGER.info("Creating account with details:");
 		AccountRequest request = (AccountRequest) joinPoint.getArgs()[0];
-		LOGGER.info(request);
+		LOGGER.info("Creating account with details: {}", request);
 	}
 
 	@AfterReturning(pointcut = "execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))", returning = "account")
 	public void createAccountAfterReturning(Object account) {
-		LOGGER.info("Account has been created with details:");
-		LOGGER.info(account);
+		LOGGER.info("Account has been created with details: {}", account);
 	}
 
 	@AfterThrowing(pointcut = "execution(* io.github.wayneh000.budgetplanner.service.AccountService.createAccount(..))", throwing = "e")
 	public void createAccountAfterThrowing(Exception e) {
-		LOGGER.error("Account creation failed for the following reason: ");
-		LOGGER.error(e.getMessage());
+		LOGGER.error("Account creation failed for the following reason: {}", e.getMessage());
 	}
 }
