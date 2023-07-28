@@ -62,6 +62,12 @@ public class AccountService {
 
 		return accountDAO;
 	}
+	
+	AccountDAO updateLoginDate(AccountDAO accountDAO) {
+		accountDAO.setDateLastLogin(LocalDateTime.now());
+		accountRepository.save(AccountDAO.toEntity(accountDAO));
+		return accountDAO;
+	}
 
 	AccountDAO verifyLogin(String username, String password) throws BudgetPlannerException {
 		Account account = accountRepository.findByUsername(username)

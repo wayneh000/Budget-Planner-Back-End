@@ -41,6 +41,7 @@ public class SessionService {
 			session = sessionRepository.findById(sessionDAO.getSessionId()).orElse(null);
 		} while (session != null);
 		sessionRepository.save(SessionDAO.toEntity(sessionDAO));
+		accountService.updateLoginDate(accountDAO);
 		
 		return sessionDAO;
 	}
