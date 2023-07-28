@@ -1,9 +1,5 @@
 package io.github.wayneh000.budgetplanner.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class BudgetPlannerException extends Exception {
 
 	/**
