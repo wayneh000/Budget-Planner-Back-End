@@ -20,11 +20,12 @@ public class SessionService {
 	@Autowired
 	private SessionRepository sessionRepository;
 	
+	@Autowired
 	private AccountService accountService;
+	
 	private Random rng;
 	
 	public SessionService() {
-		accountService = new AccountService();
 		rng = new Random();
 	}
 	
