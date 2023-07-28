@@ -56,7 +56,7 @@ public class AccountController {
 	@GetMapping("/getAccount")
 	public ResponseEntity<List<AccountResponse>> getAccounts() {
 		List<AccountDAO> accountDAOs = accountService.getAccounts();
-		List<AccountResponse> accountResponses = accountDAOs.stream().map((AccountDAO accountDAO) -> createResponse(accountDAO)).toList();
+		List<AccountResponse> accountResponses = accountDAOs.stream().map(AccountController::createResponse).toList();
 		return new ResponseEntity<>(accountResponses, HttpStatus.OK);
 	}
 
