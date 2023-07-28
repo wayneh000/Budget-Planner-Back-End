@@ -16,7 +16,6 @@ import io.github.wayneh000.budgetplanner.exception.ErrorMessages;
 import io.github.wayneh000.budgetplanner.repository.AccountRepository;
 import io.github.wayneh000.budgetplanner.request.AccountRequest;
 import io.github.wayneh000.budgetplanner.request.UpdatePasswordRequest;
-import io.github.wayneh000.budgetplanner.response.AccountResponse;
 
 @Service
 public class AccountService {
@@ -32,7 +31,7 @@ public class AccountService {
 		sessionService = new SessionService();
 	}
 
-	public AccountResponse createAccount(AccountRequest request) throws BudgetPlannerException {
+	public AccountDAO createAccount(AccountRequest request) throws BudgetPlannerException {
 		if (accountRepository.findByUsername(request.getUsername()).isPresent())
 			throw new BudgetPlannerException(ErrorMessages.ACCOUNT_ALREADY_EXISTS);
 
@@ -44,20 +43,20 @@ public class AccountService {
 		Account account = accountRepository.save(AccountDAO.toEntity(accountDAO));
 		accountDAO.setAccountId(account.getAccountId());
 
-		return AccountDAO.toResponse(accountDAO);
+		return accountDAO;
 	}
 
-	public AccountResponse getAccount(Integer accountId) throws BudgetPlannerException {
+	public AccountDAO getAccount(Integer accountId) throws BudgetPlannerException {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new BudgetPlannerException(ErrorMessages.ACCOUNT_NOT_FOUND));
-		return AccountDAO.toResponse(AccountDAO.fromEntity(account));
+		return AccountDAO.fromEntity(account);
 	}
 
-	public List<AccountResponse> getAccounts() {
+	public List<AccountDAO> getAccounts() {
 		List<Account> accounts = accountRepository.findAll();
-		List<AccountResponse> response = new ArrayList<>(accounts.size());
+		List<AccountDAO> response = new ArrayList<>(accounts.size());
 		for (Account account : accounts)
-			response.add(AccountDAO.toResponse(AccountDAO.fromEntity(account)));
+			response.add((AccountDAO.fromEntity(account)));
 		return response;
 	}
 
@@ -70,15 +69,15 @@ public class AccountService {
 		return accountDAO;
 	}
 
-	public AccountResponse updatePassword(UpdatePasswordRequest request) throws BudgetPlannerException {
+	public AccountDAO updatePassword(UpdatePasswordRequest request) throws BudgetPlannerException {
 		AccountDAO accountDAO = verifyLogin(request.getUsername(), request.getPassword());
 		accountDAO.setPassword(passwordEncoder.encode(request.getNewPassword()));
 		accountRepository.save(AccountDAO.toEntity(accountDAO));
 
-		return AccountDAO.toResponse(accountDAO);
+		return accountDAO;
 	}
 
-	private AccountDAO verifyLogin(String username, String password) throws BudgetPlannerException {
+	AccountDAO verifyLogin(String username, String password) throws BudgetPlannerException {
 		Account account = accountRepository.findByUsername(username)
 				.orElseThrow(() -> new BudgetPlannerException(ErrorMessages.ACCOUNT_INVALID_CREDENTIALS));
 		if (!passwordEncoder.matches(password, account.getPassword()))
