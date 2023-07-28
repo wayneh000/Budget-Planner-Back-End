@@ -3,7 +3,6 @@ package io.github.wayneh000.budgetplanner.dao;
 import java.time.LocalDateTime;
 
 import io.github.wayneh000.budgetplanner.entity.Session;
-import io.github.wayneh000.budgetplanner.response.SessionResponse;
 
 public class SessionDAO {
 
