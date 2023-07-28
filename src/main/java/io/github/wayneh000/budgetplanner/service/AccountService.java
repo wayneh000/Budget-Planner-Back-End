@@ -24,11 +24,9 @@ public class AccountService {
 	private AccountRepository accountRepository;
 
 	private PasswordEncoder passwordEncoder;
-	private SessionService sessionService;
 
 	public AccountService() {
 		passwordEncoder = new BCryptPasswordEncoder(16);
-		sessionService = new SessionService();
 	}
 
 	public AccountDAO createAccount(AccountRequest request) throws BudgetPlannerException {
@@ -58,15 +56,6 @@ public class AccountService {
 		for (Account account : accounts)
 			response.add((AccountDAO.fromEntity(account)));
 		return response;
-	}
-
-	public AccountDAO login(AccountRequest request) throws BudgetPlannerException {
-		AccountDAO accountDAO = verifyLogin(request.getUsername(), request.getPassword());
-		accountDAO.setDateLastLogin(LocalDateTime.now());
-		accountRepository.save(AccountDAO.toEntity(accountDAO));
-		sessionService.createSession(accountDAO);
-
-		return accountDAO;
 	}
 
 	public AccountDAO updatePassword(UpdatePasswordRequest request) throws BudgetPlannerException {
