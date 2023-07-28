@@ -1,18 +1,22 @@
 package io.github.wayneh000.budgetplanner.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.github.wayneh000.budgetplanner.dao.SessionDAO;
+import io.github.wayneh000.budgetplanner.exception.BudgetPlannerException;
+import io.github.wayneh000.budgetplanner.exception.ErrorMessages;
 import io.github.wayneh000.budgetplanner.request.AccountRequest;
 import io.github.wayneh000.budgetplanner.response.SessionResponse;
 import io.github.wayneh000.budgetplanner.service.SessionService;
 
 @RestController
-@RequestMapping("api/v1/session")
+@RequestMapping("api/v1/auth/session")
 public class SessionController {
 
 	@Autowired
@@ -20,12 +24,17 @@ public class SessionController {
 	
 	@PostMapping("login")
 	public ResponseEntity<SessionResponse> login(AccountRequest request) {
-		return null;
+		try {
+			return new ResponseEntity<>(createResponse(sessionService.createSession(request)), HttpStatus.CREATED);
+		} catch (BudgetPlannerException e) {
+			throw new ResponseStatusException(
+					e.getMessage().equals(ErrorMessages.ACCOUNT_INVALID_CREDENTIALS) ? HttpStatus.UNAUTHORIZED
+							: HttpStatus.INTERNAL_SERVER_ERROR,
+					e.getMessage());
+		}
 	}
 	
-
-	
-	static SessionResponse toResponse(SessionDAO sessionDAO) {
+	static SessionResponse createResponse(SessionDAO sessionDAO) {
 		SessionResponse response = new SessionResponse();
 		response.setSessionId(sessionDAO.getSessionId());
 		response.setAccountResponse(AccountController.createResponse(sessionDAO.getAccountDAO()));
