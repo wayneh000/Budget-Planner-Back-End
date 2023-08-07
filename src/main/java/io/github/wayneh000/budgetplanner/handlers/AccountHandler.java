@@ -25,8 +25,8 @@ public class AccountHandler {
 	
 	@Before("execution(public * io.github.wayneh000.budgetplanner.service.AccountService.getAccount(..))")
 	public void getAccountBeforeAdvice(JoinPoint joinPoint) {
-		Object request = joinPoint.getArgs()[0];
-		LOGGER.info("Getting account with id {}", request);
+		Object accountId = joinPoint.getArgs()[0];
+		LOGGER.info("Getting account with id {}", accountId);
 	}
 	
 	@Before("execution(public * io.github.wayneh000.budgetplanner.service.AccountService.getAccounts(..))")
