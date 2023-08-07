@@ -50,7 +50,7 @@ public class SessionService {
 	public SessionDAO verifySession(String sessionId) throws BudgetPlannerException {
 		Session session = sessionRepository.findById(sessionId)
 				.orElseThrow(() -> new BudgetPlannerException(ErrorMessages.SESSION_NOT_FOUND));
-		if (session.getExpirationDate().isAfter(LocalDateTime.now())) {
+		if (session.getExpirationDate().isBefore(LocalDateTime.now())) {
 			deleteSession(sessionId);
 			throw new BudgetPlannerException(ErrorMessages.SESSION_EXPIRED);
 		}
