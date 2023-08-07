@@ -39,15 +39,4 @@ public class AccountHandler {
 		Object request = joinPoint.getArgs()[0];
 		LOGGER.info("Updating password with details {}", request);
 	}
-
-	@AfterReturning(pointcut = "execution(public * io.github.wayneh000.budgetplanner.service.AccountService.*(..))", returning = "account")
-	public void afterReturningAdvice(Object account) {
-		LOGGER.info("Execution successful with details: {}", account);
-	}
-
-	@AfterThrowing(pointcut = "execution(public * io.github.wayneh000.budgetplanner.service.AccountService.*(..))", throwing = "e")
-	public void afterThrowingAdvice(Exception e) {
-		LOGGER.error("Execution failed with the following reason: {}", e.getMessage());
-		LOGGER.error(e);
-	}
 }
