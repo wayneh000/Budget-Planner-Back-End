@@ -34,18 +34,6 @@ public class Expense {
 	@Column(name = "period")
 	private Integer period;
 
-	public Expense() {
-	}
-
-	public Expense(Long expenseId, Budget budget, String name, String category, Double amount, Integer period) {
-		this.expenseId = expenseId;
-		this.budget = budget;
-		this.name = name;
-		this.category = category;
-		this.amount = amount;
-		this.period = period;
-	}
-
 	public Long getExpenseId() {
 		return expenseId;
 	}

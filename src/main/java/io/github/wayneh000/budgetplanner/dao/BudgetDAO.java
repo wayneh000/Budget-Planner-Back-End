@@ -13,20 +13,6 @@ public class BudgetDAO {
 	private Integer period;
 	private LocalDateTime dateCreated;
 	private LocalDateTime dateLastEdited;
-	
-	public BudgetDAO() {
-	}
-
-	public BudgetDAO(Integer budgetId, AccountDAO accountDAO, String name, String description, Integer period,
-			LocalDateTime dateCreated, LocalDateTime dateLastEdited) {
-		this.budgetId = budgetId;
-		this.accountDAO = accountDAO;
-		this.name = name;
-		this.description = description;
-		this.period = period;
-		this.dateCreated = dateCreated;
-		this.dateLastEdited = dateLastEdited;
-	}
 
 	public Integer getBudgetId() {
 		return budgetId;
@@ -92,22 +78,26 @@ public class BudgetDAO {
 	}
 	
 	public static Budget toEntity(BudgetDAO budgetDAO) {
-		return new Budget(budgetDAO.getBudgetId(),
-				AccountDAO.toEntity(budgetDAO.getAccountDAO()),
-				budgetDAO.getName(),
-				budgetDAO.getDescription(),
-				budgetDAO.getPeriod(),
-				budgetDAO.getDateCreated(),
-				budgetDAO.getDateLastEdited());
+		Budget budget = new Budget();
+		budget.setBudgetId(budgetDAO.getBudgetId());
+		budget.setAccount(AccountDAO.toEntity(budgetDAO.getAccountDAO()));
+		budget.setName(budgetDAO.getName());
+		budget.setDescription(budgetDAO.getDescription());
+		budget.setPeriod(budgetDAO.getPeriod());
+		budget.setDateCreated(budgetDAO.getDateCreated());
+		budget.setDateLastEdited(budgetDAO.getDateLastEdited());
+		return budget;
 	}
 	
 	public static BudgetDAO fromEntity(Budget budget) {
-		return new BudgetDAO(budget.getBudgetId(),
-				AccountDAO.fromEntity(budget.getAccount()),
-				budget.getName(),
-				budget.getDescription(),
-				budget.getPeriod(),
-				budget.getDateCreated(),
-				budget.getDateLastEdited());
+		BudgetDAO budgetDAO = new BudgetDAO();
+		budgetDAO.setBudgetId(budget.getBudgetId());
+		budgetDAO.setAccountDAO(AccountDAO.fromEntity(budget.getAccount()));
+		budgetDAO.setName(budget.getName());
+		budgetDAO.setDescription(budget.getDescription());
+		budgetDAO.setPeriod(budget.getPeriod());
+		budgetDAO.setDateCreated(budget.getDateCreated());
+		budgetDAO.setDateLastEdited(budget.getDateLastEdited());
+		return budgetDAO;
 	}
 }

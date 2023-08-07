@@ -41,20 +41,6 @@ public class Budget {
 	@Column(name = "date_last_edited")
 	private LocalDateTime dateLastEdited;
 
-	public Budget() {
-	}
-
-	public Budget(Integer budgetId, Account account, String name, String description, Integer period,
-			LocalDateTime dateCreated, LocalDateTime dateLastEdited) {
-		this.budgetId = budgetId;
-		this.account = account;
-		this.name = name;
-		this.description = description;
-		this.period = period;
-		this.dateCreated = dateCreated;
-		this.dateLastEdited = dateLastEdited;
-	}
-
 	public Integer getBudgetId() {
 		return budgetId;
 	}

@@ -8,18 +8,7 @@ public class SessionDAO {
 
 	private String sessionId;
 	private AccountDAO accountDAO;
-	private String ipAddress;
 	private LocalDateTime expirationDate;
-	
-	public SessionDAO() {
-	}
-
-	public SessionDAO(String sessionId, AccountDAO accountDAO, String ipAddress, LocalDateTime expirationDate) {
-		this.sessionId = sessionId;
-		this.accountDAO = accountDAO;
-		this.ipAddress = ipAddress;
-		this.expirationDate = expirationDate;
-	}
 
 	public String getSessionId() {
 		return sessionId;
@@ -37,14 +26,6 @@ public class SessionDAO {
 		this.accountDAO = accountDAO;
 	}
 
-	public String getIpAddress() {
-		return ipAddress;
-	}
-
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
-
 	public LocalDateTime getExpirationDate() {
 		return expirationDate;
 	}
@@ -55,21 +36,22 @@ public class SessionDAO {
 
 	@Override
 	public String toString() {
-		return "SessionDAO [sessionId=" + sessionId + ", accountDAO=" + accountDAO + ", ipAddress=" + ipAddress
-				+ ", expirationDate=" + expirationDate + "]";
+		return "SessionDAO [sessionId=" + sessionId + ", accountDAO=" + accountDAO + ", expirationDate=" + expirationDate + "]";
 	}
 	
 	public static Session toEntity(SessionDAO sessionDAO) {
-		return new Session(sessionDAO.getSessionId(),
-				AccountDAO.toEntity(sessionDAO.getAccountDAO()),
-				sessionDAO.getIpAddress(),
-				sessionDAO.getExpirationDate());
+		Session session = new Session();
+		session.setSessionId(sessionDAO.getSessionId());
+		session.setAccount(AccountDAO.toEntity(sessionDAO.getAccountDAO()));
+		session.setExpirationDate(sessionDAO.getExpirationDate());
+		return session;
 	}
 	
 	public static SessionDAO fromEntity(Session session) {
-		return new SessionDAO(session.getSessionId(),
-				AccountDAO.fromEntity(session.getAccount()),
-				session.getIpAddress(),
-				session.getExpirationDate());
+		SessionDAO sessionDAO = new SessionDAO();
+		sessionDAO.setSessionId(session.getSessionId());
+		sessionDAO.setAccountDAO(AccountDAO.fromEntity(session.getAccount()));
+		sessionDAO.setExpirationDate(session.getExpirationDate());
+		return sessionDAO;
 	}
 }
