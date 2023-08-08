@@ -16,6 +16,9 @@ public class ErrorMessages {
 	public static final String SESSION_EXPIRED = "Current session has expired.";
 	public static final String SESSION_NOT_FOUND = "Current session cannot be found.";
 	
+	//BudgetService Errors
+	public static final String BUDGET_NOT_FOUND = "Budget cannot be found.";
+	
 	//Period Errors
 	public static final String PERIOD_INVALID_NAME = "Invalid period name.";
 }
