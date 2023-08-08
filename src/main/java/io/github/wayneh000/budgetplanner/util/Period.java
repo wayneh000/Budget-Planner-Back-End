@@ -1,5 +1,8 @@
 package io.github.wayneh000.budgetplanner.util;
 
+import io.github.wayneh000.budgetplanner.exception.BudgetPlannerException;
+import io.github.wayneh000.budgetplanner.exception.ErrorMessages;
+
 public class Period {
 
 	public static final Period HOURLY = new Period("Hourly", 0); //special case
@@ -18,5 +21,31 @@ public class Period {
 	private Period(String name, int value) {
 		this.name = name;
 		this.value = value;
+	}
+	
+	public static int getValueFromName(String name) throws BudgetPlannerException {
+		name = name.toUpperCase();
+		switch (name) {
+			case "HOURLY":
+				return HOURLY.value;
+			case "DAILY":
+				return DAILY.value;
+			case "WEEKLY":
+				return WEEKLY.value;
+			case "BIWEEKLY":
+				return BIWEEKLY.value;
+			case "SEMIMONTHLY":
+				return SEMIMONTHLY.value;
+			case "MONTHLY":
+				return MONTHLY.value;
+			case "QUARTERLY":
+				return QUARTERLY.value;
+			case "SEMIANNUAL":
+				return SEMIANNUAL.value;
+			case "ANNUAL":
+				return ANNUAL.value;
+			default:
+				throw new BudgetPlannerException(ErrorMessages.PERIOD_INVALID_NAME);
+		}
 	}
 }

@@ -15,4 +15,7 @@ public class ErrorMessages {
 	//SessionService Errors
 	public static final String SESSION_EXPIRED = "Current session has expired.";
 	public static final String SESSION_NOT_FOUND = "Current session cannot be found.";
+	
+	//Period Errors
+	public static final String PERIOD_INVALID_NAME = "Invalid period name.";
 }
